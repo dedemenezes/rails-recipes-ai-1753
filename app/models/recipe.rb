@@ -4,22 +4,22 @@ class Recipe < ApplicationRecord
   validates :name, presence: true
   after_save if: -> { saved_change_to_name? || saved_change_to_ingredients? } do
     set_content
-    set_picture
+    # set_picture
   end
 
   has_one_attached :picture
 
-  def content
-    # if the column content is blank ("" or nil)
-    if super.blank?
-      # I want to call set content
-      set_content
-    else
-      super
-    end
-    # if it's not blank
-    # I want to return the column value
-  end
+  # def content
+    #   # if the column content is blank ("" or nil)
+    #   if super.blank?
+    #     # I want to call set content
+    #     set_content
+    #   else
+    #     super
+    #   end
+    #   # if it's not blank
+    #   # I want to return the column value
+  # end
 
   private
 
