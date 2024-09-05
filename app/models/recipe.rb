@@ -24,16 +24,7 @@ class Recipe < ApplicationRecord
   private
 
   def set_content
-    client = OpenAI::Client.new
-    chatgpt_response = client.chat(parameters: {
-      model: "gpt-3.5-turbo",
-      messages: [{ role: "user", content: "Give me a simple recipe for #{self.name} with the ingredients #{ingredients}. Give me only the text of the recipe, without any of your own answer like 'Here is a simple recipe'."}]
-    })
-    new_content = chatgpt_response['choices'][0]['message']['content']
-
-    self.update(content: new_content)
-
-    return new_content
+    RecipeContentJob.perform_later(self)
   end
 
   def set_picture
